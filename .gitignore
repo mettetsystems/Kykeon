@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.venv/
+.kykeon/
+__pycache__/
+.pytest_cache/
+*.pyc
+backend/.pytest_cache/

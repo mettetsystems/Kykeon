@@ -1,0 +1,16 @@
+[project]
+name = "kykeon-backend"
+version = "0.2.0"
+description = "Local execution API for the Kykeon model workbench."
+requires-python = ">=3.11"
+dependencies = [
+  "torch==2.15.0",
+  "transformers==5.22.1",
+  "safetensors==0.8.0",
+  "fastapi==0.162.0",
+  "uvicorn==0.54.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

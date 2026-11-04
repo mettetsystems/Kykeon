@@ -1,0 +1,302 @@
+[
+  {
+    "level": 1,
+    "name": "Weight masking",
+    "description": "Disable selected weights without changing tensor dimensions.",
+    "category": "Parameter-Level Surgery"
+  },
+  {
+    "level": 2,
+    "name": "Individual weight pruning",
+    "description": "Permanently remove or zero selected low-importance connections.",
+    "category": "Parameter-Level Surgery"
+  },
+  {
+    "level": 3,
+    "name": "Weight clipping",
+    "description": "Restrict selected parameters to specified value ranges.",
+    "category": "Parameter-Level Surgery"
+  },
+  {
+    "level": 4,
+    "name": "Weight rescaling",
+    "description": "Adjust individual parameter groups or projection magnitudes.",
+    "category": "Parameter-Level Surgery"
+  },
+  {
+    "level": 5,
+    "name": "Weight transplantation",
+    "description": "Copy selected compatible weight tensors between models.",
+    "category": "Parameter-Level Surgery"
+  },
+  {
+    "level": 6,
+    "name": "Neuron masking",
+    "description": "Disable specific neurons in an MLP or feed-forward network.",
+    "category": "Neuron & Channel Surgery"
+  },
+  {
+    "level": 7,
+    "name": "Neuron pruning",
+    "description": "Remove neurons and adjust connected weight matrices.",
+    "category": "Neuron & Channel Surgery"
+  },
+  {
+    "level": 8,
+    "name": "Neuron replacement",
+    "description": "Substitute selected neurons with newly initialized or transplanted units.",
+    "category": "Neuron & Channel Surgery"
+  },
+  {
+    "level": 9,
+    "name": "Channel reorganization",
+    "description": "Reorder or remap hidden channels while preserving compatible connectivity.",
+    "category": "Neuron & Channel Surgery"
+  },
+  {
+    "level": 10,
+    "name": "Hidden-dimension resizing",
+    "description": "Expand or contract intermediate representation dimensions.",
+    "category": "Neuron & Channel Surgery"
+  },
+  {
+    "level": 11,
+    "name": "Attention head masking",
+    "description": "Disable selected attention heads.",
+    "category": "Attention Mechanism Surgery"
+  },
+  {
+    "level": 12,
+    "name": "Attention head pruning",
+    "description": "Remove heads and adjust attention output projections.",
+    "category": "Attention Mechanism Surgery"
+  },
+  {
+    "level": 13,
+    "name": "Head regrouping",
+    "description": "Convert or reorganize MHA heads into GQA-style groups.",
+    "category": "Attention Mechanism Surgery"
+  },
+  {
+    "level": 14,
+    "name": "Attention-pattern replacement",
+    "description": "Replace global attention patterns with local, sliding-window, or sparse patterns.",
+    "category": "Attention Mechanism Surgery"
+  },
+  {
+    "level": 15,
+    "name": "Attention algorithm replacement",
+    "description": "Substitute softmax attention with linear attention or another attention formulation.",
+    "category": "Attention Mechanism Surgery"
+  },
+  {
+    "level": 16,
+    "name": "Activation replacement",
+    "description": "Change an FFN activation, such as GELU to SiLU.",
+    "category": "Feed-Forward & Expert Surgery"
+  },
+  {
+    "level": 17,
+    "name": "Gated-FFN conversion",
+    "description": "Convert a conventional FFN into SwiGLU or another gated structure.",
+    "category": "Feed-Forward & Expert Surgery"
+  },
+  {
+    "level": 18,
+    "name": "Expert pruning",
+    "description": "Remove selected experts from an MoE layer.",
+    "category": "Feed-Forward & Expert Surgery"
+  },
+  {
+    "level": 19,
+    "name": "Expert transplantation",
+    "description": "Insert, replace, or merge compatible expert networks.",
+    "category": "Feed-Forward & Expert Surgery"
+  },
+  {
+    "level": 20,
+    "name": "Dense-to-MoE conversion",
+    "description": "Replace dense FFN layers with routed expert networks.",
+    "category": "Feed-Forward & Expert Surgery"
+  },
+  {
+    "level": 21,
+    "name": "Layer masking",
+    "description": "Bypass selected layers without permanently deleting their weights.",
+    "category": "Layer-Level Surgery"
+  },
+  {
+    "level": 22,
+    "name": "Layer pruning",
+    "description": "Permanently remove complete neural network layers.",
+    "category": "Layer-Level Surgery"
+  },
+  {
+    "level": 23,
+    "name": "Layer duplication",
+    "description": "Clone existing layers to increase model depth.",
+    "category": "Layer-Level Surgery"
+  },
+  {
+    "level": 24,
+    "name": "Layer insertion",
+    "description": "Introduce new layers into an existing model.",
+    "category": "Layer-Level Surgery"
+  },
+  {
+    "level": 25,
+    "name": "Layer transplantation",
+    "description": "Replace complete layers with compatible layers from another model.",
+    "category": "Layer-Level Surgery"
+  },
+  {
+    "level": 26,
+    "name": "Normalization-block replacement",
+    "description": "Replace LayerNorm with RMSNorm or another normalization structure.",
+    "category": "Block-Level Transplantation"
+  },
+  {
+    "level": 27,
+    "name": "Feed-forward-block replacement",
+    "description": "Replace an entire FFN subsystem with a different computation block.",
+    "category": "Block-Level Transplantation"
+  },
+  {
+    "level": 28,
+    "name": "Attention-block replacement",
+    "description": "Replace a complete self-attention block while retaining surrounding layers.",
+    "category": "Block-Level Transplantation"
+  },
+  {
+    "level": 29,
+    "name": "State-space-block transplantation",
+    "description": "Replace selected Transformer attention blocks with Mamba or SSM blocks.",
+    "category": "Block-Level Transplantation"
+  },
+  {
+    "level": 30,
+    "name": "Hybrid-block construction",
+    "description": "Combine attention, state-space, or convolutional mechanisms within a new composite block.",
+    "category": "Block-Level Transplantation"
+  },
+  {
+    "level": 31,
+    "name": "Residual-path restructuring",
+    "description": "Modify skip connections and residual computation pathways.",
+    "category": "Structural Architecture Surgery"
+  },
+  {
+    "level": 32,
+    "name": "Layer-order restructuring",
+    "description": "Change the ordering of attention, FFN, and normalization components.",
+    "category": "Structural Architecture Surgery"
+  },
+  {
+    "level": 33,
+    "name": "Parallel-branch restructuring",
+    "description": "Convert sequential processing into parallel computational branches.",
+    "category": "Structural Architecture Surgery"
+  },
+  {
+    "level": 34,
+    "name": "Cross-layer connectivity surgery",
+    "description": "Introduce or remove connections across nonadjacent layers.",
+    "category": "Structural Architecture Surgery"
+  },
+  {
+    "level": 35,
+    "name": "Hierarchical network restructuring",
+    "description": "Reorganize layers into stages, hierarchies, or multi-resolution processing pathways.",
+    "category": "Structural Architecture Surgery"
+  },
+  {
+    "level": 36,
+    "name": "Selective backbone substitution",
+    "description": "Replace a small subset of backbone blocks with a different architectural family.",
+    "category": "Backbone Transplantation"
+  },
+  {
+    "level": 37,
+    "name": "Interleaved hybrid backbone",
+    "description": "Alternate Transformer layers with Mamba, convolutional, or other blocks throughout the network.",
+    "category": "Backbone Transplantation"
+  },
+  {
+    "level": 38,
+    "name": "Majority backbone replacement",
+    "description": "Replace more than half of the backbone blocks with a different architecture.",
+    "category": "Backbone Transplantation"
+  },
+  {
+    "level": 39,
+    "name": "Near-total backbone replacement",
+    "description": "Replace nearly all original backbone blocks while retaining selected original modules.",
+    "category": "Backbone Transplantation"
+  },
+  {
+    "level": 40,
+    "name": "Complete backbone transplantation",
+    "description": "Replace the entire computational backbone while retaining compatible input/output components.",
+    "category": "Backbone Transplantation"
+  },
+  {
+    "level": 41,
+    "name": "Attention-to-state-space conversion",
+    "description": "Convert a Transformer-centered architecture toward a predominantly SSM-based architecture.",
+    "category": "Architectural Conversion"
+  },
+  {
+    "level": 42,
+    "name": "Dense-to-sparse architecture conversion",
+    "description": "Convert a predominantly dense backbone to a sparsely activated architecture, including MoE structures.",
+    "category": "Architectural Conversion"
+  },
+  {
+    "level": 43,
+    "name": "Decoder-only to encoder-decoder conversion",
+    "description": "Restructure a causal-only network into separate encoding and decoding subsystems.",
+    "category": "Architectural Conversion"
+  },
+  {
+    "level": 44,
+    "name": "Autoregressive-to-diffusion conversion",
+    "description": "Adapt a model from next-token prediction to iterative denoising generation.",
+    "category": "Architectural Conversion"
+  },
+  {
+    "level": 45,
+    "name": "Cross-family architecture conversion",
+    "description": "Transform one major neural architecture family into another while systematically preserving reusable weights or representations.",
+    "category": "Architectural Conversion"
+  },
+  {
+    "level": 46,
+    "name": "Architecture-guided reconstruction",
+    "description": "Build a new architecture using the original model's dimensions, organization, or compatible components as references.",
+    "category": "Reconstruction & Reimplementation"
+  },
+  {
+    "level": 47,
+    "name": "Partial weight reconstruction",
+    "description": "Initialize a new architecture from mapped, factorized, or transformed subsets of existing weights.",
+    "category": "Reconstruction & Reimplementation"
+  },
+  {
+    "level": 48,
+    "name": "Representation-guided reconstruction",
+    "description": "Train a substantially new architecture to reproduce internal representations of the original model.",
+    "category": "Reconstruction & Reimplementation"
+  },
+  {
+    "level": 49,
+    "name": "Teacher-student architecture replacement",
+    "description": "Train a different student architecture through knowledge distillation from the original model.",
+    "category": "Reconstruction & Reimplementation"
+  },
+  {
+    "level": 50,
+    "name": "Full architectural reimplementation",
+    "description": "Design and train a new architecture with little or no direct weight reuse, potentially transferring behavior or knowledge from the original system.",
+    "category": "Reconstruction & Reimplementation"
+  }
+]

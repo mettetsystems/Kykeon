@@ -1,0 +1,1052 @@
+[
+  {
+    "id": "model-1",
+    "kind": "model",
+    "name": "Autoregressive Language Model",
+    "description": "Generates text one token at a time",
+    "category": "Autoregressive and language generation models"
+  },
+  {
+    "id": "model-2",
+    "kind": "model",
+    "name": "Decoder-Only Transformer",
+    "description": "General-purpose language and code generation",
+    "category": "Autoregressive and language generation models"
+  },
+  {
+    "id": "model-3",
+    "kind": "model",
+    "name": "Encoder-Decoder Transformer",
+    "description": "Translation, summarization, and conditional generation",
+    "category": "Autoregressive and language generation models"
+  },
+  {
+    "id": "model-4",
+    "kind": "model",
+    "name": "Recurrent Neural Network (RNN) Generator",
+    "description": "Sequential text and time-series generation",
+    "category": "Autoregressive and language generation models"
+  },
+  {
+    "id": "model-5",
+    "kind": "model",
+    "name": "LSTM Generative Model",
+    "description": "Generates sequences with longer dependencies",
+    "category": "Autoregressive and language generation models"
+  },
+  {
+    "id": "model-6",
+    "kind": "model",
+    "name": "GRU Generative Model",
+    "description": "Lightweight recurrent sequence generation",
+    "category": "Autoregressive and language generation models"
+  },
+  {
+    "id": "model-7",
+    "kind": "model",
+    "name": "State Space Generative Model (SSM)",
+    "description": "Efficient long-sequence generation",
+    "category": "Autoregressive and language generation models"
+  },
+  {
+    "id": "model-8",
+    "kind": "model",
+    "name": "PixelCNN",
+    "description": "Autoregressive image generation",
+    "category": "Autoregressive and language generation models"
+  },
+  {
+    "id": "model-9",
+    "kind": "model",
+    "name": "PixelRNN",
+    "description": "Pixel-by-pixel image generation",
+    "category": "Autoregressive and language generation models"
+  },
+  {
+    "id": "model-10",
+    "kind": "model",
+    "name": "WaveNet",
+    "description": "Autoregressive waveform and speech generation",
+    "category": "Autoregressive and language generation models"
+  },
+  {
+    "id": "model-11",
+    "kind": "model",
+    "name": "Denoising Diffusion Probabilistic Model (DDPM)",
+    "description": "Iterative noise removal",
+    "category": "Diffusion models"
+  },
+  {
+    "id": "model-12",
+    "kind": "model",
+    "name": "Denoising Diffusion Implicit Model (DDIM)",
+    "description": "Efficient diffusion sampling",
+    "category": "Diffusion models"
+  },
+  {
+    "id": "model-13",
+    "kind": "model",
+    "name": "Latent Diffusion Model (LDM)",
+    "description": "Generates within compressed latent spaces",
+    "category": "Diffusion models"
+  },
+  {
+    "id": "model-14",
+    "kind": "model",
+    "name": "Diffusion Transformer (DiT)",
+    "description": "Transformer-based image/video diffusion",
+    "category": "Diffusion models"
+  },
+  {
+    "id": "model-15",
+    "kind": "model",
+    "name": "Score-Based Generative Model",
+    "description": "Uses learned gradients of data density",
+    "category": "Diffusion models"
+  },
+  {
+    "id": "model-16",
+    "kind": "model",
+    "name": "Stochastic Differential Equation Diffusion Model",
+    "description": "Continuous-time diffusion generation",
+    "category": "Diffusion models"
+  },
+  {
+    "id": "model-17",
+    "kind": "model",
+    "name": "Discrete Diffusion Model",
+    "description": "Generates categorical or discrete data",
+    "category": "Diffusion models"
+  },
+  {
+    "id": "model-18",
+    "kind": "model",
+    "name": "Masked Diffusion Language Model",
+    "description": "Generates text through iterative token refinement",
+    "category": "Diffusion models"
+  },
+  {
+    "id": "model-19",
+    "kind": "model",
+    "name": "Conditional Diffusion Model",
+    "description": "Generates outputs guided by prompts or conditions",
+    "category": "Diffusion models"
+  },
+  {
+    "id": "model-20",
+    "kind": "model",
+    "name": "Consistency Model",
+    "description": "One-step or few-step generation",
+    "category": "Diffusion models"
+  },
+  {
+    "id": "model-21",
+    "kind": "model",
+    "name": "Generative Adversarial Network (GAN)",
+    "description": "Synthetic data generation",
+    "category": "Generative adversarial networks (GANs)"
+  },
+  {
+    "id": "model-22",
+    "kind": "model",
+    "name": "Deep Convolutional GAN (DCGAN)",
+    "description": "Convolution-based image generation",
+    "category": "Generative adversarial networks (GANs)"
+  },
+  {
+    "id": "model-23",
+    "kind": "model",
+    "name": "Conditional GAN (cGAN)",
+    "description": "Controlled generation using labels or inputs",
+    "category": "Generative adversarial networks (GANs)"
+  },
+  {
+    "id": "model-24",
+    "kind": "model",
+    "name": "Wasserstein GAN (WGAN)",
+    "description": "Improved adversarial training objectives",
+    "category": "Generative adversarial networks (GANs)"
+  },
+  {
+    "id": "model-25",
+    "kind": "model",
+    "name": "StyleGAN",
+    "description": "High-quality controllable image generation",
+    "category": "Generative adversarial networks (GANs)"
+  },
+  {
+    "id": "model-26",
+    "kind": "model",
+    "name": "CycleGAN",
+    "description": "Unpaired image-to-image translation",
+    "category": "Generative adversarial networks (GANs)"
+  },
+  {
+    "id": "model-27",
+    "kind": "model",
+    "name": "Pix2Pix GAN",
+    "description": "Paired image-to-image translation",
+    "category": "Generative adversarial networks (GANs)"
+  },
+  {
+    "id": "model-28",
+    "kind": "model",
+    "name": "Progressive Growing GAN",
+    "description": "Progressive high-resolution generation",
+    "category": "Generative adversarial networks (GANs)"
+  },
+  {
+    "id": "model-29",
+    "kind": "model",
+    "name": "Variational Autoencoder (VAE)",
+    "description": "Probabilistic latent generation",
+    "category": "Variational autoencoders (VAEs)"
+  },
+  {
+    "id": "model-30",
+    "kind": "model",
+    "name": "Conditional VAE (CVAE)",
+    "description": "Condition-guided latent generation",
+    "category": "Variational autoencoders (VAEs)"
+  },
+  {
+    "id": "model-31",
+    "kind": "model",
+    "name": "Beta-VAE (β-VAE)",
+    "description": "Disentangled latent feature learning",
+    "category": "Variational autoencoders (VAEs)"
+  },
+  {
+    "id": "model-32",
+    "kind": "model",
+    "name": "Vector Quantized VAE (VQ-VAE)",
+    "description": "Discrete latent token generation",
+    "category": "Variational autoencoders (VAEs)"
+  },
+  {
+    "id": "model-33",
+    "kind": "model",
+    "name": "Hierarchical VAE",
+    "description": "Multilevel latent generation",
+    "category": "Variational autoencoders (VAEs)"
+  },
+  {
+    "id": "model-34",
+    "kind": "model",
+    "name": "Wasserstein Autoencoder (WAE)",
+    "description": "Distribution-matching latent generation",
+    "category": "Variational autoencoders (VAEs)"
+  },
+  {
+    "id": "model-35",
+    "kind": "model",
+    "name": "Normalizing Flow",
+    "description": "Invertible probabilistic generation",
+    "category": "Flow-based generative models"
+  },
+  {
+    "id": "model-36",
+    "kind": "model",
+    "name": "RealNVP",
+    "description": "Coupling-layer-based flow generation",
+    "category": "Flow-based generative models"
+  },
+  {
+    "id": "model-37",
+    "kind": "model",
+    "name": "Glow",
+    "description": "Invertible image generation",
+    "category": "Flow-based generative models"
+  },
+  {
+    "id": "model-38",
+    "kind": "model",
+    "name": "Continuous Normalizing Flow (CNF)",
+    "description": "Continuous-time density transformation",
+    "category": "Flow-based generative models"
+  },
+  {
+    "id": "model-39",
+    "kind": "model",
+    "name": "Flow Matching Model",
+    "description": "Learns a vector field for generative transport",
+    "category": "Flow-based generative models"
+  },
+  {
+    "id": "model-40",
+    "kind": "model",
+    "name": "Rectified Flow Model",
+    "description": "Learns efficient, relatively straight transport paths",
+    "category": "Flow-based generative models"
+  },
+  {
+    "id": "model-41",
+    "kind": "model",
+    "name": "Energy-Based Model (EBM)",
+    "description": "Sampling from learned energy landscapes",
+    "category": "Energy-based and probabilistic models"
+  },
+  {
+    "id": "model-42",
+    "kind": "model",
+    "name": "Restricted Boltzmann Machine (RBM)",
+    "description": "Probabilistic representation and data generation",
+    "category": "Energy-based and probabilistic models"
+  },
+  {
+    "id": "model-43",
+    "kind": "model",
+    "name": "Deep Boltzmann Machine (DBM)",
+    "description": "Hierarchical probabilistic generation",
+    "category": "Energy-based and probabilistic models"
+  },
+  {
+    "id": "model-44",
+    "kind": "model",
+    "name": "Deep Belief Network (DBN)",
+    "description": "Layered probabilistic generation",
+    "category": "Energy-based and probabilistic models"
+  },
+  {
+    "id": "model-45",
+    "kind": "model",
+    "name": "Generative Flow Network (GFlowNet)",
+    "description": "Generates diverse structured objects with probabilities related to rewards",
+    "category": "Generative flow networks"
+  },
+  {
+    "id": "model-46",
+    "kind": "model",
+    "name": "VAE-GAN",
+    "description": "Combines latent representations with adversarial generation",
+    "category": "Hybrid generative models"
+  },
+  {
+    "id": "model-47",
+    "kind": "model",
+    "name": "Diffusion-GAN Hybrid",
+    "description": "Combines denoising and adversarial objectives",
+    "category": "Hybrid generative models"
+  },
+  {
+    "id": "model-48",
+    "kind": "model",
+    "name": "Graph Generative Model",
+    "description": "Generates graphs, molecular structures, and networks",
+    "category": "Structured data generation"
+  },
+  {
+    "id": "model-49",
+    "kind": "model",
+    "name": "Grammar-Based Generative Model",
+    "description": "Generates sequences or structures constrained by formal grammar",
+    "category": "Structured data generation"
+  },
+  {
+    "id": "model-50",
+    "kind": "model",
+    "name": "Multimodal Generative Model",
+    "description": "Generates one or more modalities using text, image, audio, video, or other inputs",
+    "category": "Multimodal generative models"
+  },
+  {
+    "id": "control-1",
+    "kind": "control",
+    "name": "Temperature",
+    "description": "Adjusts the sharpness of token probabilities; lower values generally produce more predictable output.",
+    "category": "Sampling and randomness controls"
+  },
+  {
+    "id": "control-2",
+    "kind": "control",
+    "name": "Top-K Sampling",
+    "description": "Restricts selection to the K highest-probability tokens.",
+    "category": "Sampling and randomness controls"
+  },
+  {
+    "id": "control-3",
+    "kind": "control",
+    "name": "Top-P (Nucleus Sampling)",
+    "description": "Selects from the smallest group of tokens whose cumulative probability reaches P.",
+    "category": "Sampling and randomness controls"
+  },
+  {
+    "id": "control-4",
+    "kind": "control",
+    "name": "Min-P Sampling",
+    "description": "Excludes tokens whose probability is too low relative to the most likely token.",
+    "category": "Sampling and randomness controls"
+  },
+  {
+    "id": "control-5",
+    "kind": "control",
+    "name": "Typical-P Sampling",
+    "description": "Prioritizes tokens with information content close to the distribution's expected surprise.",
+    "category": "Sampling and randomness controls"
+  },
+  {
+    "id": "control-6",
+    "kind": "control",
+    "name": "Top-H Sampling",
+    "description": "Limits the entropy retained in the sampling distribution.",
+    "category": "Sampling and randomness controls"
+  },
+  {
+    "id": "control-7",
+    "kind": "control",
+    "name": "Epsilon Sampling",
+    "description": "Removes tokens below an absolute probability threshold.",
+    "category": "Sampling and randomness controls"
+  },
+  {
+    "id": "control-8",
+    "kind": "control",
+    "name": "Eta Sampling",
+    "description": "Uses a probability threshold that adapts to the distribution's uncertainty.",
+    "category": "Sampling and randomness controls"
+  },
+  {
+    "id": "control-9",
+    "kind": "control",
+    "name": "Mirostat Sampling",
+    "description": "Dynamically adjusts sampling to target a desired level of surprise or perplexity.",
+    "category": "Sampling and randomness controls"
+  },
+  {
+    "id": "control-10",
+    "kind": "control",
+    "name": "Random Seed",
+    "description": "Controls the random-number sequence used during sampling, improving reproducibility under identical conditions.",
+    "category": "Sampling and randomness controls"
+  },
+  {
+    "id": "control-11",
+    "kind": "control",
+    "name": "Repetition Penalty",
+    "description": "Penalizes tokens that have already appeared in the text.",
+    "category": "Repetition, diversity, and token probability controls"
+  },
+  {
+    "id": "control-12",
+    "kind": "control",
+    "name": "Frequency Penalty",
+    "description": "Penalizes tokens proportionally to how often they have appeared.",
+    "category": "Repetition, diversity, and token probability controls"
+  },
+  {
+    "id": "control-13",
+    "kind": "control",
+    "name": "Presence Penalty",
+    "description": "Penalizes a token simply because it has appeared before.",
+    "category": "Repetition, diversity, and token probability controls"
+  },
+  {
+    "id": "control-14",
+    "kind": "control",
+    "name": "No-Repeat N-Gram",
+    "description": "Prevents the generation of previously used sequences of N tokens.",
+    "category": "Repetition, diversity, and token probability controls"
+  },
+  {
+    "id": "control-15",
+    "kind": "control",
+    "name": "DRY Sampling",
+    "description": "Discourages repeated sequences, particularly longer repetitive phrases.",
+    "category": "Repetition, diversity, and token probability controls"
+  },
+  {
+    "id": "control-16",
+    "kind": "control",
+    "name": "Encoder Repetition Penalty",
+    "description": "Adjusts the likelihood of generating text absent from the encoder input, for supported encoder-decoder models.",
+    "category": "Repetition, diversity, and token probability controls"
+  },
+  {
+    "id": "control-17",
+    "kind": "control",
+    "name": "Diversity Penalty",
+    "description": "Encourages different beam groups to produce distinct candidates.",
+    "category": "Repetition, diversity, and token probability controls"
+  },
+  {
+    "id": "control-18",
+    "kind": "control",
+    "name": "Logit Bias",
+    "description": "Directly increases or decreases the probability of specific token IDs.",
+    "category": "Repetition, diversity, and token probability controls"
+  },
+  {
+    "id": "control-19",
+    "kind": "control",
+    "name": "Token Suppression / Ban Lists",
+    "description": "Prevents selected tokens or token sequences from being generated.",
+    "category": "Repetition, diversity, and token probability controls"
+  },
+  {
+    "id": "control-20",
+    "kind": "control",
+    "name": "Allowed-Token Filtering",
+    "description": "Restricts generation to an explicitly permitted set of tokens.",
+    "category": "Repetition, diversity, and token probability controls"
+  },
+  {
+    "id": "control-21",
+    "kind": "control",
+    "name": "Maximum Output Tokens",
+    "description": "Sets the maximum number of tokens a response can generate.",
+    "category": "Generation length and stopping controls"
+  },
+  {
+    "id": "control-22",
+    "kind": "control",
+    "name": "Minimum Output Tokens",
+    "description": "Prevents termination before a minimum number of tokens has been generated, where supported.",
+    "category": "Generation length and stopping controls"
+  },
+  {
+    "id": "control-23",
+    "kind": "control",
+    "name": "Stop Sequences",
+    "description": "Ends generation when a specified string or delimiter appears.",
+    "category": "Generation length and stopping controls"
+  },
+  {
+    "id": "control-24",
+    "kind": "control",
+    "name": "Stop Token IDs",
+    "description": "Ends generation when designated token IDs are encountered.",
+    "category": "Generation length and stopping controls"
+  },
+  {
+    "id": "control-25",
+    "kind": "control",
+    "name": "EOS Token Control",
+    "description": "Modifies how the engine handles the end-of-sequence token.",
+    "category": "Generation length and stopping controls"
+  },
+  {
+    "id": "control-26",
+    "kind": "control",
+    "name": "Length Penalty",
+    "description": "Rewards or penalizes longer sequences during beam-based decoding.",
+    "category": "Generation length and stopping controls"
+  },
+  {
+    "id": "control-27",
+    "kind": "control",
+    "name": "Early Stopping",
+    "description": "Controls when beam search terminates rather than continuing to explore alternatives.",
+    "category": "Generation length and stopping controls"
+  },
+  {
+    "id": "control-28",
+    "kind": "control",
+    "name": "Reasoning Token Budget",
+    "description": "Limits or requests the amount of internal reasoning for models and runtimes that support this feature.",
+    "category": "Generation length and stopping controls"
+  },
+  {
+    "id": "control-29",
+    "kind": "control",
+    "name": "Greedy Decoding",
+    "description": "Always selects the highest-probability next token.",
+    "category": "Decoding and candidate-selection strategies"
+  },
+  {
+    "id": "control-30",
+    "kind": "control",
+    "name": "Beam Search",
+    "description": "Tracks several likely candidate sequences and selects according to sequence scores.",
+    "category": "Decoding and candidate-selection strategies"
+  },
+  {
+    "id": "control-31",
+    "kind": "control",
+    "name": "Contrastive Search",
+    "description": "Balances token likelihood against degeneration or repetition in generated representations.",
+    "category": "Decoding and candidate-selection strategies"
+  },
+  {
+    "id": "control-32",
+    "kind": "control",
+    "name": "Best-of-N Sampling",
+    "description": "Generates multiple candidates and selects one using a scoring mechanism.",
+    "category": "Decoding and candidate-selection strategies"
+  },
+  {
+    "id": "control-33",
+    "kind": "control",
+    "name": "Self-Consistency Sampling",
+    "description": "Generates multiple reasoning paths and aggregates their answers.",
+    "category": "Decoding and candidate-selection strategies"
+  },
+  {
+    "id": "control-34",
+    "kind": "control",
+    "name": "Reranker-Based Selection",
+    "description": "Uses a separate scoring model or algorithm to choose among generated responses.",
+    "category": "Decoding and candidate-selection strategies"
+  },
+  {
+    "id": "control-35",
+    "kind": "control",
+    "name": "Classifier-Free Guidance (CFG)",
+    "description": "Combines conditioned and unconditioned predictions to strengthen adherence to a prompt, on compatible models.",
+    "category": "Decoding and candidate-selection strategies"
+  },
+  {
+    "id": "control-36",
+    "kind": "control",
+    "name": "XTC Sampling",
+    "description": "Probabilistically excludes certain high-probability tokens to encourage less obvious alternatives.",
+    "category": "Decoding and candidate-selection strategies"
+  },
+  {
+    "id": "control-37",
+    "kind": "control",
+    "name": "JSON Mode",
+    "description": "Constrains generation to valid JSON syntax, where supported.",
+    "category": "Structured output and constrained decoding"
+  },
+  {
+    "id": "control-38",
+    "kind": "control",
+    "name": "JSON Schema Enforcement",
+    "description": "Restricts output to data matching a specified JSON structure and supported schema constraints.",
+    "category": "Structured output and constrained decoding"
+  },
+  {
+    "id": "control-39",
+    "kind": "control",
+    "name": "Grammar-Constrained Decoding",
+    "description": "Uses formal grammars such as GBNF or EBNF to constrain valid output sequences.",
+    "category": "Structured output and constrained decoding"
+  },
+  {
+    "id": "control-40",
+    "kind": "control",
+    "name": "Regex-Constrained Decoding",
+    "description": "Forces generated text to match a regular expression, within engine limitations.",
+    "category": "Structured output and constrained decoding"
+  },
+  {
+    "id": "control-41",
+    "kind": "control",
+    "name": "Choice-Constrained Decoding",
+    "description": "Restricts the response to one of several predefined values.",
+    "category": "Structured output and constrained decoding"
+  },
+  {
+    "id": "control-42",
+    "kind": "control",
+    "name": "Tool-Call Constraints",
+    "description": "Limits generated tool calls to approved names and argument structures.",
+    "category": "Structured output and constrained decoding"
+  },
+  {
+    "id": "control-43",
+    "kind": "control",
+    "name": "Prefix-Constrained Decoding",
+    "description": "Restricts allowable next tokens based on the current output prefix.",
+    "category": "Structured output and constrained decoding"
+  },
+  {
+    "id": "control-44",
+    "kind": "control",
+    "name": "System Instructions",
+    "description": "Establishes role, priorities, behavioral expectations, and application policies.",
+    "category": "Prompt, context, and behavioral controls"
+  },
+  {
+    "id": "control-45",
+    "kind": "control",
+    "name": "Few-Shot Prompting",
+    "description": "Uses examples to demonstrate the desired output style, structure, or reasoning pattern.",
+    "category": "Prompt, context, and behavioral controls"
+  },
+  {
+    "id": "control-46",
+    "kind": "control",
+    "name": "Context Window Management",
+    "description": "Selects, truncates, or summarizes conversation history to control what information the model can use.",
+    "category": "Prompt, context, and behavioral controls"
+  },
+  {
+    "id": "control-47",
+    "kind": "control",
+    "name": "Retrieval-Augmented Generation (RAG)",
+    "description": "Injects relevant external documents or knowledge into the prompt.",
+    "category": "Prompt, context, and behavioral controls"
+  },
+  {
+    "id": "control-48",
+    "kind": "control",
+    "name": "Prompt Templates",
+    "description": "Standardizes instruction layout, delimiters, variables, and task-specific guidance.",
+    "category": "Prompt, context, and behavioral controls"
+  },
+  {
+    "id": "control-49",
+    "kind": "control",
+    "name": "Reasoning Scaffolds",
+    "description": "Uses structured steps, plans, checklists, or decomposition to guide task completion.",
+    "category": "Prompt, context, and behavioral controls"
+  },
+  {
+    "id": "control-50",
+    "kind": "control",
+    "name": "Output Validation and Regeneration",
+    "description": "Tests responses against requirements and regenerates or repairs them when validation fails.",
+    "category": "Prompt, context, and behavioral controls"
+  },
+  {
+    "id": "surgery-1",
+    "kind": "surgery",
+    "name": "Torch-Pruning",
+    "description": "Dependency-aware structural pruning of neural networks",
+    "category": "Model pruning and structural reduction"
+  },
+  {
+    "id": "surgery-2",
+    "kind": "surgery",
+    "name": "LLM-Pruner",
+    "description": "Structured pruning of large language models",
+    "category": "Model pruning and structural reduction"
+  },
+  {
+    "id": "surgery-3",
+    "kind": "surgery",
+    "name": "Wanda",
+    "description": "Activation-aware weight pruning",
+    "category": "Model pruning and structural reduction"
+  },
+  {
+    "id": "surgery-4",
+    "kind": "surgery",
+    "name": "SparseGPT",
+    "description": "One-shot unstructured weight pruning",
+    "category": "Model pruning and structural reduction"
+  },
+  {
+    "id": "surgery-5",
+    "kind": "surgery",
+    "name": "SliceGPT",
+    "description": "Removes hidden dimensions using computational invariance",
+    "category": "Model pruning and structural reduction"
+  },
+  {
+    "id": "surgery-6",
+    "kind": "surgery",
+    "name": "ShortGPT",
+    "description": "Removes redundant Transformer layers",
+    "category": "Model pruning and structural reduction"
+  },
+  {
+    "id": "surgery-7",
+    "kind": "surgery",
+    "name": "FLAP",
+    "description": "Structured pruning using fluctuation-based importance",
+    "category": "Model pruning and structural reduction"
+  },
+  {
+    "id": "surgery-8",
+    "kind": "surgery",
+    "name": "PruneMe",
+    "description": "Identifies redundant layer blocks",
+    "category": "Model pruning and structural reduction"
+  },
+  {
+    "id": "surgery-9",
+    "kind": "surgery",
+    "name": "NNCF",
+    "description": "Neural network compression, including pruning and quantization",
+    "category": "Model pruning and structural reduction"
+  },
+  {
+    "id": "surgery-10",
+    "kind": "surgery",
+    "name": "MMRazor",
+    "description": "Model pruning, distillation, and architecture compression",
+    "category": "Model pruning and structural reduction"
+  },
+  {
+    "id": "surgery-11",
+    "kind": "surgery",
+    "name": "TorchAO",
+    "description": "PyTorch-native quantization and sparsity",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-12",
+    "kind": "surgery",
+    "name": "bitsandbytes",
+    "description": "4-bit/8-bit layers and low-memory training",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-13",
+    "kind": "surgery",
+    "name": "GPTQModel",
+    "description": "GPTQ-based model quantization",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-14",
+    "kind": "surgery",
+    "name": "AWQ",
+    "description": "Activation-aware weight quantization",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-15",
+    "kind": "surgery",
+    "name": "HQQ",
+    "description": "Half-quadratic low-bit quantization",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-16",
+    "kind": "surgery",
+    "name": "Quanto",
+    "description": "Quantization of weights and activations",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-17",
+    "kind": "surgery",
+    "name": "LLM Compressor",
+    "description": "Post-training model compression",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-18",
+    "kind": "surgery",
+    "name": "AutoRound",
+    "description": "Optimized rounding for low-bit quantization",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-19",
+    "kind": "surgery",
+    "name": "Intel Neural Compressor",
+    "description": "Compression and mixed precision",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-20",
+    "kind": "surgery",
+    "name": "AIMET",
+    "description": "Quantization simulation and compression",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-21",
+    "kind": "surgery",
+    "name": "NVIDIA Model Optimizer",
+    "description": "Quantization, pruning, and deployment optimization",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-22",
+    "kind": "surgery",
+    "name": "llama.cpp quantization utilities",
+    "description": "GGUF quantization and model conversion",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-23",
+    "kind": "surgery",
+    "name": "TensorFlow Model Optimization Toolkit",
+    "description": "Quantization, pruning, and clustering",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-24",
+    "kind": "surgery",
+    "name": "PaddleSlim",
+    "description": "Neural-network compression and slimming",
+    "category": "Model quantization and numerical compression"
+  },
+  {
+    "id": "surgery-25",
+    "kind": "surgery",
+    "name": "MergeKit",
+    "description": "Model weight merging, interpolation, layer passthrough",
+    "category": "Model merging and weight manipulation"
+  },
+  {
+    "id": "surgery-26",
+    "kind": "surgery",
+    "name": "Model Soups",
+    "description": "Averages compatible model checkpoints",
+    "category": "Model merging and weight manipulation"
+  },
+  {
+    "id": "surgery-27",
+    "kind": "surgery",
+    "name": "sd-mecha",
+    "description": "Diffusion model checkpoint merging",
+    "category": "Model merging and weight manipulation"
+  },
+  {
+    "id": "surgery-28",
+    "kind": "surgery",
+    "name": "SuperMerger",
+    "description": "GUI-assisted diffusion checkpoint merging",
+    "category": "Model merging and weight manipulation"
+  },
+  {
+    "id": "surgery-29",
+    "kind": "surgery",
+    "name": "Hugging Face PEFT",
+    "description": "Merge and manage parameter-efficient adapters",
+    "category": "Model merging and weight manipulation"
+  },
+  {
+    "id": "surgery-30",
+    "kind": "surgery",
+    "name": "kohya_ss",
+    "description": "LoRA training and applicable adapter merge utilities",
+    "category": "Model merging and weight manipulation"
+  },
+  {
+    "id": "surgery-31",
+    "kind": "surgery",
+    "name": "Diffusers",
+    "description": "Fuse/unfuse compatible diffusion LoRA adapters",
+    "category": "Model merging and weight manipulation"
+  },
+  {
+    "id": "surgery-32",
+    "kind": "surgery",
+    "name": "ComfyUI checkpoint-merging nodes",
+    "description": "Visual checkpoint and model-component operations",
+    "category": "Model merging and weight manipulation"
+  },
+  {
+    "id": "surgery-33",
+    "kind": "surgery",
+    "name": "EasyEdit",
+    "description": "Unified model editing and evaluation framework",
+    "category": "Model knowledge editing"
+  },
+  {
+    "id": "surgery-34",
+    "kind": "surgery",
+    "name": "ROME",
+    "description": "Targeted rank-one weight editing",
+    "category": "Model knowledge editing"
+  },
+  {
+    "id": "surgery-35",
+    "kind": "surgery",
+    "name": "MEMIT",
+    "description": "Editing multiple factual associations",
+    "category": "Model knowledge editing"
+  },
+  {
+    "id": "surgery-36",
+    "kind": "surgery",
+    "name": "MEND",
+    "description": "Learns efficient weight updates",
+    "category": "Model knowledge editing"
+  },
+  {
+    "id": "surgery-37",
+    "kind": "surgery",
+    "name": "SERAC",
+    "description": "External memory-based correction without altering base weights",
+    "category": "Model knowledge editing"
+  },
+  {
+    "id": "surgery-38",
+    "kind": "surgery",
+    "name": "AlphaEdit",
+    "description": "Knowledge editing with constraints to preserve existing knowledge",
+    "category": "Model knowledge editing"
+  },
+  {
+    "id": "surgery-39",
+    "kind": "surgery",
+    "name": "Knowledge Neurons",
+    "description": "Locates and manipulates neurons associated with factual knowledge",
+    "category": "Model knowledge editing"
+  },
+  {
+    "id": "surgery-40",
+    "kind": "surgery",
+    "name": "GRACE",
+    "description": "Lifelong editing using an external adaptive codebook",
+    "category": "Model knowledge editing"
+  },
+  {
+    "id": "surgery-41",
+    "kind": "surgery",
+    "name": "TransformerLens",
+    "description": "Inspect attention, activations, and internal circuits",
+    "category": "Activation intervention and mechanistic interpretability"
+  },
+  {
+    "id": "surgery-42",
+    "kind": "surgery",
+    "name": "NNsight",
+    "description": "Trace and intervene in model computations",
+    "category": "Activation intervention and mechanistic interpretability"
+  },
+  {
+    "id": "surgery-43",
+    "kind": "surgery",
+    "name": "pyvene",
+    "description": "Intervene on internal representations",
+    "category": "Activation intervention and mechanistic interpretability"
+  },
+  {
+    "id": "surgery-44",
+    "kind": "surgery",
+    "name": "pyreft",
+    "description": "Representation fine-tuning",
+    "category": "Activation intervention and mechanistic interpretability"
+  },
+  {
+    "id": "surgery-45",
+    "kind": "surgery",
+    "name": "baukit",
+    "description": "Inspect and modify intermediate activations",
+    "category": "Activation intervention and mechanistic interpretability"
+  },
+  {
+    "id": "surgery-46",
+    "kind": "surgery",
+    "name": "SAELens",
+    "description": "Train and analyze sparse autoencoders to identify model features",
+    "category": "Activation intervention and mechanistic interpretability"
+  },
+  {
+    "id": "surgery-47",
+    "kind": "surgery",
+    "name": "ONNX GraphSurgeon",
+    "description": "Modify ONNX computation graphs and nodes",
+    "category": "Computational graph and architecture surgery"
+  },
+  {
+    "id": "surgery-48",
+    "kind": "surgery",
+    "name": "ONNX Runtime graph optimization",
+    "description": "Graph transformations, operator fusion, and optimization",
+    "category": "Computational graph and architecture surgery"
+  },
+  {
+    "id": "surgery-49",
+    "kind": "surgery",
+    "name": "Microsoft Olive",
+    "description": "Automated model transformation and hardware optimization",
+    "category": "Computational graph and architecture surgery"
+  },
+  {
+    "id": "surgery-50",
+    "kind": "surgery",
+    "name": "PyTorch FX",
+    "description": "Programmatic graph tracing and rewriting",
+    "category": "Computational graph and architecture surgery"
+  }
+]
