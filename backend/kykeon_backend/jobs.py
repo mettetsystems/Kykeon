@@ -288,8 +288,8 @@ class JobManager:
 
     def _persist(self, job: dict[str, Any]) -> None:
         try:
-            atomic_json(self.settings.artifact_root, Path(job["directory"]) / "state.json", self._public(job))
-        except OSError:
+            atomic_json(self.settings.artifact_root, Path(job["directory"]) / "state.json", self._public(job) | {"legacy_unverified": job.get("legacy_unverified", False)})
+        except Exception:
             # The in-memory terminal state and success record remain authoritative.
             pass
 
@@ -392,50 +392,49 @@ class JobManager:
                 state = json.loads(state_path.read_text())
             except (OSError, ValueError):
                 state = {}
+            if not isinstance(state, dict):
+                state = {}
             status = "succeeded" if result else state.get("status", "failed")
+            if not isinstance(status, str):
+                status = "failed"
             if status not in {"failed", "cancelled"} and result is None:
                 status = "failed"
             job = {"id": job_dir.name, "submission_id": job_dir.name, "directory": str(job_dir),
                    "status": status, "result": result, "process": None,
-                   "error": None if result else state.get("error") or "Backend restarted before a successful publication."}
+                   "error": None if result else state.get("error") or "Backend restarted before a successful publication.",
+                   "legacy_unverified": state.get("legacy_unverified", not state_path.exists())}
             for name, filename in (("cancel", "cancel"), ("progress", "progress.jsonl"), ("result", "result.json"), ("error", "error.json")):
                 job[name + "_path"] = str(output_path(self.settings.artifact_root, job_dir / filename))
             self.jobs[job_dir.name] = job
             self.by_submission[job_dir.name] = job
-            if result is None:
+            if result is None and not job["legacy_unverified"]:
                 _discard(self.settings.artifact_root, job_dir.name)
+            # Legacy jobs without state/success records stay hidden. Preserve
+            # their files rather than deleting an older user's export.
             self._persist(job)
 
 
 def _discard(artifact_root: Path, job_id: str) -> None:
-    staging = artifact_root / "staging" / job_id
+    """Best-effort cleanup must never prevent releasing the executor."""
     try:
-        safe_rmtree(artifact_root, staging)
+        safe_rmtree(artifact_root, output_path(artifact_root, artifact_root / "staging" / job_id))
     except Exception:
-        if staging.is_symlink():
-            staging.unlink(missing_ok=True)
-    checkpoints = output_path(artifact_root, artifact_root / "checkpoints")
-    if not checkpoints.exists():
+        pass
+    try:
+        checkpoints = output_path(artifact_root, artifact_root / "checkpoints")
+        children = list(checkpoints.iterdir()) if checkpoints.exists() else []
+    except Exception:
         return
-    for child in list(checkpoints.iterdir()):
-        if child.is_symlink():
-            continue
-        provenance = child / "kykeon-provenance.json"
-        commit = child / "kykeon-commit.json"
-        if not provenance.is_file():
-            continue
+    for child in children:
         try:
+            provenance = output_path(artifact_root, child / "kykeon-provenance.json")
             payload = json.loads(provenance.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            continue
-        if payload.get("job_id") != job_id:
-            continue
-        if success_result(artifact_root, job_id) is not None:
-            continue
-        try:
-            safe_rmtree(artifact_root, child)
+            if not isinstance(payload, dict) or payload.get("job_id") != job_id:
+                continue
+            if success_result(artifact_root, job_id) is None:
+                safe_rmtree(artifact_root, child)
         except Exception:
-            pass
+            continue
 
 
 def _model_path(workflow: dict[str, Any]) -> str:
@@ -486,8 +485,12 @@ def _stop_recorded_worker(pid_path: Path) -> None:
     cmdline = Path(f"/proc/{pid}/cmdline")
     if not cmdline.exists():
         return
-    raw = cmdline.read_bytes().replace(b"\x00", b" ").decode("utf-8", "replace")
-    if "kykeon_backend.worker" not in raw:
+    args = cmdline.read_bytes().decode("utf-8", "replace").split("\x00")
+    expected_spec = str(pid_path.parent / "spec.json")
+    if "kykeon_backend.worker" not in args or "--spec" not in args:
+        return
+    index = args.index("--spec")
+    if index + 1 >= len(args) or args[index + 1] != expected_spec:
         return
     try:
         os.kill(pid, signal.SIGTERM)

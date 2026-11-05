@@ -117,6 +117,8 @@ def output_path(root: Path, target: Path) -> Path:
     """
     root = root.expanduser().absolute()
     target = target.expanduser().absolute()
+    if root.is_symlink():
+        _reject(f"Output root must not be a symlink: {root}")
     try:
         relative = target.relative_to(root)
     except ValueError:
@@ -146,5 +148,10 @@ def atomic_json(root: Path, target: Path, value) -> None:
             os.fsync(handle.fileno())
         output_path(root, target)
         os.replace(temporary, target)
+        directory_fd = os.open(target.parent, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(directory_fd)
+        finally:
+            os.close(directory_fd)
     finally:
         Path(temporary).unlink(missing_ok=True)

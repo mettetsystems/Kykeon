@@ -70,9 +70,9 @@ export async function readJson<T>(response: Response): Promise<T> {
   return response.json();
 }
 
-function remember(submissionId: string, jobId: string) {
+function remember(submissionId: string, jobId: string, cancelRequested = false) {
   try {
-    sessionStorage.setItem(INFLIGHT, JSON.stringify({ submissionId, jobId }));
+    sessionStorage.setItem(INFLIGHT, JSON.stringify({ submissionId, jobId, cancelRequested }));
   } catch {
     /* Session storage can be unavailable; the in-memory id still works. */
   }
@@ -95,13 +95,13 @@ function proxyFailure(error: unknown): boolean {
   );
 }
 
-export function inflightJob(): { submissionId: string; jobId: string } | null {
+export function inflightJob(): { submissionId: string; jobId: string; cancelRequested?: boolean } | null {
   try {
     const raw = sessionStorage.getItem(INFLIGHT);
     if (!raw) return null;
-    const parsed = JSON.parse(raw) as { submissionId?: string; jobId?: string };
+    const parsed = JSON.parse(raw) as { submissionId?: string; jobId?: string; cancelRequested?: boolean };
     if (!parsed.submissionId || !parsed.jobId) return null;
-    return { submissionId: parsed.submissionId, jobId: parsed.jobId };
+    return { submissionId: parsed.submissionId, jobId: parsed.jobId, cancelRequested: parsed.cancelRequested === true };
   } catch {
     return null;
   }
@@ -114,126 +114,129 @@ type Poll = {
   error?: string | null;
 };
 
-export function createLocalEngine(
-  deviceId: string,
-  hooks?: { onPhase?: (phase: RunPhase) => void },
-): ExecutionEngine {
+type Hooks = { onPhase?: (phase: RunPhase) => void };
+type OnEvent = Parameters<ExecutionEngine["run"]>[1];
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export async function resumeLocalJob(
+  onEvent: OnEvent,
+  signal: AbortSignal,
+  hooks?: Hooks,
+): Promise<RunResult> {
+  const pending = inflightJob();
+  if (!pending) throw Error("No local job is awaiting recovery.");
+  return monitorJob(pending.jobId, onEvent, signal, hooks);
+}
+
+async function monitorJob(jobId: string, onEvent: OnEvent, signal: AbortSignal, hooks?: Hooks): Promise<RunResult> {
+  let cancelWanted = signal.aborted || inflightJob()?.cancelRequested === true;
+  let cancelAcknowledged = false;
+  const requestCancel = () => {
+    cancelWanted = true;
+    const pending = inflightJob();
+    if (pending) remember(pending.submissionId, jobId, true);
+    hooks?.onPhase?.("cancel_pending");
+  };
+  signal.addEventListener("abort", requestCancel);
+  if (cancelWanted) requestCancel();
+  hooks?.onPhase?.(cancelWanted ? "cancel_pending" : "running");
+  let offset = 0;
+  let failures = 0;
+  try {
+    for (;;) {
+      if (cancelWanted && !cancelAcknowledged) {
+        try {
+          const response = await fetch(`/api/v1/jobs/${jobId}/cancel`, { method: "POST", headers });
+          if (response.ok) {
+            const acknowledgement = await response.json();
+            cancelAcknowledged = ["cancel_requested", "cancelled", "failed", "succeeded"].includes(acknowledgement.status);
+          }
+        } catch { /* Retry on the next poll; an HTTP abort is not cancellation. */ }
+      }
+      let poll: Poll;
+      try {
+        poll = await readJson<Poll>(await fetch(`/api/v1/jobs/${jobId}/events?offset=${offset}`));
+        failures = 0;
+      } catch {
+        if (++failures >= 3)
+          throw Error("Lost contact with the local job. Reload or press Run to reconnect; the job may still be running. Simulation was not run.");
+        await delay(400);
+        continue;
+      }
+      offset = poll.offset;
+      for (const event of poll.events) {
+        if (event.event === "node" && event.nodeId && event.state)
+          onEvent({ nodeId: event.nodeId, state: event.state === "running" ? "running" : "complete", detail: event.detail || "" });
+      }
+      if (poll.status === "succeeded") {
+        // Keep recovery information if the final download fails.
+        const result = await readJson<{ text?: string; report?: string; model?: RunResult["model"] }>(
+          await fetch(`/api/v1/jobs/${jobId}/result`),
+        );
+        hooks?.onPhase?.("succeeded");
+        forget();
+        return { text: result.text, report: result.report, model: result.model, values: result };
+      }
+      if (poll.status === "cancelled" || poll.status === "failed") {
+        hooks?.onPhase?.(poll.status);
+        forget();
+        throw Error(poll.error || (poll.status === "cancelled" ? "Run cancelled." : "Local job failed."));
+      }
+      await delay(200);
+    }
+  } finally {
+    signal.removeEventListener("abort", requestCancel);
+  }
+}
+
+export function createLocalEngine(deviceId: string, hooks?: Hooks): ExecutionEngine {
   return {
     async run(workflow: Workflow, onEvent, signal) {
-      if (!deviceId)
-        throw Error(
-          "Select an execution device. Kykeon does not assume GPU index 0 and will not switch to CPU.",
-        );
-      const submissionId = crypto.randomUUID();
+      if (inflightJob()) return resumeLocalJob(onEvent, signal, hooks);
+      if (!deviceId) throw Error("Select an execution device. Kykeon does not assume GPU index 0 and will not switch to CPU.");
+      if (signal.aborted) throw Error("Run cancelled.");
       hooks?.onPhase?.("submitting");
-      let jobId = "";
-      const payload = JSON.stringify({
-        workflow,
-        device_id: deviceId,
-        submission_id: submissionId,
-      });
+      const submissionId = crypto.randomUUID();
       try {
         const validated = await fetch("/api/v1/workflows/validate", {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ workflow, device_id: deviceId }),
+          method: "POST", headers, body: JSON.stringify({ workflow, device_id: deviceId }),
         });
         if (!validated.ok) throw Error(await errorText(validated));
+      } catch (error) {
+        if (error instanceof TypeError || proxyFailure(error))
+          throw Error("Local backend is unavailable. Simulation was not run.");
+        throw error;
+      }
+      if (signal.aborted) throw Error("Run cancelled.");
+      // Backend uses this UUID as the job ID, including when the response is lost.
+      remember(submissionId, submissionId);
+      let jobId = submissionId;
+      try {
         const created = await fetch("/api/v1/jobs", {
-          method: "POST",
-          headers,
-          body: payload,
+          method: "POST", headers,
+          body: JSON.stringify({ workflow, device_id: deviceId, submission_id: submissionId }),
         });
-        if (!created.ok) throw Error(await errorText(created));
+        if (!created.ok) {
+          if (created.status >= 400 && created.status < 500) forget();
+          throw Error(await errorText(created));
+        }
         jobId = (await created.json()).id;
       } catch (error) {
         if (!(error instanceof TypeError) && !proxyFailure(error)) throw error;
-        try {
-          const recovered = await fetch(`/api/v1/submissions/${submissionId}`);
-          if (!recovered.ok)
-            throw Error("Local backend is unavailable. Simulation was not run.");
-          jobId = (await recovered.json()).id;
-        } catch (recovery) {
-          if (
-            recovery instanceof Error &&
-            recovery.message.includes("Simulation was not run")
-          )
-            throw recovery;
-          throw Error("Local backend is unavailable. Simulation was not run.");
+        // A lost response can race preparation. Retry lookup, never submit a
+        // second job under a new identity. Keep the ID if recovery is offline.
+        let recovered = false;
+        for (let attempt = 0; attempt < 3; attempt++) {
+          try {
+            const response = await fetch(`/api/v1/submissions/${submissionId}`);
+            if (response.ok) { jobId = (await response.json()).id; recovered = true; break; }
+          } catch { /* Keep the identity for reload recovery. */ }
+          await delay(400);
         }
+        if (!recovered) throw Error("Submission status is unknown. Reload or press Run to reconnect. Simulation was not run.");
       }
       remember(submissionId, jobId);
-      hooks?.onPhase?.("running");
-      let cancelSent = false;
-      const requestCancel = () => {
-        if (cancelSent) return;
-        cancelSent = true;
-        hooks?.onPhase?.("cancel_pending");
-        fetch(`/api/v1/jobs/${jobId}/cancel`, { method: "POST", headers }).catch(
-          () => undefined,
-        );
-      };
-      if (signal.aborted) requestCancel();
-      else signal.addEventListener("abort", requestCancel, { once: true });
-      let offset = 0;
-      let failures = 0;
-      for (;;) {
-        let poll: Poll;
-        try {
-          const response = await fetch(
-            `/api/v1/jobs/${jobId}/events?offset=${offset}`,
-          );
-          if (!response.ok) throw Error(await errorText(response));
-          poll = await response.json();
-          failures = 0;
-        } catch (error) {
-          if (error instanceof Error && error.message.startsWith("Progress offset"))
-            throw error;
-          failures += 1;
-          if (failures >= 3)
-            throw Error(
-              "Lost contact with the local job. Simulation was not run.",
-            );
-          await new Promise((resolve) => setTimeout(resolve, 400));
-          continue;
-        }
-        offset = poll.offset;
-        for (const event of poll.events) {
-          if (event.event === "node" && event.nodeId && event.state)
-            onEvent({
-              nodeId: event.nodeId,
-              state: event.state === "running" ? "running" : "complete",
-              detail: event.detail || "",
-            });
-        }
-        if (poll.status === "succeeded") {
-          hooks?.onPhase?.("succeeded");
-          forget();
-          break;
-        }
-        if (poll.status === "cancelled") {
-          hooks?.onPhase?.("cancelled");
-          forget();
-          throw Error(poll.error || "Run cancelled.");
-        }
-        if (poll.status === "failed") {
-          hooks?.onPhase?.("failed");
-          forget();
-          throw Error(poll.error || "Local job failed. Simulation was not run.");
-        }
-        await new Promise((resolve) => setTimeout(resolve, 200));
-      }
-      const result = await readJson<{
-        text?: string;
-        report?: string;
-        model?: RunResult["model"];
-      }>(await fetch(`/api/v1/jobs/${jobId}/result`));
-      return {
-        text: result.text,
-        report: result.report,
-        model: result.model,
-        values: result,
-      };
+      return monitorJob(jobId, onEvent, signal, hooks);
     },
   };
 }

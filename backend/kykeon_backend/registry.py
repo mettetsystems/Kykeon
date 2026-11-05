@@ -9,7 +9,7 @@ from typing import Any
 
 from .checkpoints import inspect_checkpoint
 from .errors import NotFound, ValidationFailed
-from .paths import contained_any
+from .paths import contained_any, atomic_json
 
 
 class Registry:
@@ -24,9 +24,7 @@ class Registry:
             self.records = {}
 
     def save(self) -> None:
-        temporary = self.path.with_suffix(".json.tmp")
-        temporary.write_text(json.dumps(self.records, indent=2), encoding="utf-8")
-        temporary.replace(self.path)
+        atomic_json(self.path.parent, self.path, self.records)
 
     def upsert(self, resolved: Path, inspection: dict[str, Any]) -> dict[str, Any]:
         with self._lock:

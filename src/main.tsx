@@ -2,6 +2,8 @@ import { capabilityLabels } from "./capabilities";
 import { LocalCheckpointPanel, TensorDetails, formatBytes } from "./local-panel";
 import {
   createLocalEngine,
+  inflightJob,
+  resumeLocalJob,
   readJson,
   type LocalDevice,
   type LocalRegistration,
@@ -534,11 +536,10 @@ function App() {
         executionMode === "local"
           ? createLocalEngine(deviceId, { onPhase: setRunPhase })
           : simulationEngine;
-      const r = await engine.run(
-        workflow,
-        (e) => setStatuses((s) => ({ ...s, [e.nodeId]: e.state })),
-        controller.signal,
-      );
+      const onEvent = (e: { nodeId: string; state: string }) => setStatuses((s) => ({ ...s, [e.nodeId]: e.state }));
+      const r = inflightJob()
+        ? await resumeLocalJob(onEvent, controller.signal, { onPhase: setRunPhase })
+        : await engine.run(workflow, onEvent, controller.signal);
       setResult(r);
     } catch (e) {
       setNotice((e as Error).message);
@@ -552,6 +553,13 @@ function App() {
       );
     }
   }
+  useEffect(() => {
+    // The timer avoids duplicate monitoring during StrictMode's effect probe.
+    // Monitoring an existing job never enables Local execution or submits work.
+    const timer = window.setTimeout(() => { if (inflightJob()) void run(); }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
+
   function publish() {
     if (!result?.model) return;
     if (result.values.execution === "local") {

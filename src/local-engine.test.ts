@@ -1,7 +1,17 @@
-import { describe, expect, it, vi } from "vitest";
-import { createLocalEngine } from "./local-engine";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { createLocalEngine, inflightJob, resumeLocalJob } from "./local-engine";
 import { readStorage, writeStorage } from "./storage";
 import { starter } from "./engine";
+
+beforeEach(() => {
+  const data = new Map<string, string>();
+  vi.stubGlobal("sessionStorage", {
+    getItem: (key: string) => data.get(key) ?? null,
+    setItem: (key: string, value: string) => data.set(key, value),
+    removeItem: (key: string) => data.delete(key),
+  });
+});
+afterEach(() => vi.unstubAllGlobals());
 
 function workflow() {
   return starter("inference");
@@ -18,8 +28,10 @@ describe("local execution cancellation and recovery", () => {
         calls.push(`${init?.method || "GET"} ${url}`);
         if (String(url).includes("/validate"))
           return { ok: true, json: async () => ({ accepted: true }) };
-        if (String(url).endsWith("/jobs") && init?.method === "POST")
+        if (String(url).endsWith("/jobs") && init?.method === "POST") {
+          controller.abort();
           return { ok: true, json: async () => ({ id: "job-1" }) };
+        }
         if (String(url).includes("/cancel"))
           return { ok: true, json: async () => ({ status: "cancel_requested" }) };
         polls += 1;
@@ -35,7 +47,6 @@ describe("local execution cancellation and recovery", () => {
     const controller = new AbortController();
     const engine = createLocalEngine("cpu", { onPhase: (phase) => phases.push(phase) });
     const promise = engine.run(workflow(), () => {}, controller.signal);
-    controller.abort();
     await expect(promise).rejects.toThrow(/cancelled/);
     expect(calls.some((call) => call.includes("/cancel"))).toBe(true);
     expect(phases).toContain("cancel_pending");
@@ -140,5 +151,46 @@ describe("browser storage failures", () => {
     expect(readStorage("kykeon-workspace-v1")).toBeNull();
     expect(writeStorage("kykeon-workspace-v1", "{}")).toMatch(/quota/);
     vi.unstubAllGlobals();
+  });
+});
+
+describe("persistent recovery", () => {
+  it("retries an unsuccessful cancellation request and removes its listener", async () => {
+    let cancels = 0;
+    let polls = 0;
+    const controller = new AbortController();
+    const removed = vi.spyOn(controller.signal, "removeEventListener");
+    sessionStorage.setItem("kykeon-inflight-job", JSON.stringify({ submissionId: "job", jobId: "job" }));
+    controller.abort();
+    vi.stubGlobal("fetch", vi.fn(async (url: string) => {
+      if (url.endsWith("/cancel")) {
+        cancels++;
+        return { ok: cancels > 1, json: async () => ({ status: "cancel_requested" }) };
+      }
+      return { ok: true, json: async () => ({ events: [], offset: 0, status: ++polls > 1 ? "cancelled" : "running" }) };
+    }));
+    await expect(resumeLocalJob(() => {}, controller.signal)).rejects.toThrow("cancelled");
+    expect(cancels).toBe(2);
+    expect(removed).toHaveBeenCalledWith("abort", expect.any(Function));
+    expect(inflightJob()).toBeNull();
+  });
+
+  it("keeps the job after a failed result download and resumes without submitting", async () => {
+    sessionStorage.setItem("kykeon-inflight-job", JSON.stringify({ submissionId: "job", jobId: "job" }));
+    let downloads = 0;
+    const fetchMock = vi.fn(async (url: string) => {
+      if (url.endsWith("/result")) {
+        if (++downloads === 1) throw new TypeError("offline");
+        return { ok: true, json: async () => ({ execution: "local", text: "recovered" }) };
+      }
+      return { ok: true, json: async () => ({ events: [], offset: 0, status: "succeeded" }) };
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    await expect(resumeLocalJob(() => {}, new AbortController().signal)).rejects.toThrow("offline");
+    expect(inflightJob()?.jobId).toBe("job");
+    const result = await createLocalEngine("cpu").run(workflow(), () => {}, new AbortController().signal);
+    expect(result.text).toBe("recovered");
+    expect(inflightJob()).toBeNull();
+    expect(fetchMock.mock.calls.every(([url]) => url.includes("/jobs/job/"))).toBe(true);
   });
 });

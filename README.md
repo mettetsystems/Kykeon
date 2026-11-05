@@ -2,6 +2,36 @@
 
 A local, visual workbench for inference controls and bounded model surgery. The browser keeps an explicit **Simulation** mode. **Local execution** is a separate loopback backend and never falls back to simulation.
 
+## Quick start with Make (Linux)
+
+Requires Python 3.14, Node.js 22+, npm, and GNU Make. The install target uses
+this project's pinned CUDA backend dependencies; it does not install drivers,
+download checkpoints, or require root privileges.
+
+```bash
+make setup    # Create .venv and local directories; safe to repeat
+make install  # Install npm lockfile and pinned Python dependencies
+make start    # Start frontend + backend in the background
+make stop     # Gracefully stop only services launched by these scripts
+```
+
+`make install` also runs setup, so on a fresh checkout you can start with
+`make install && make start`. You can also run `./setup.sh`, `./install.sh`,
+`./start.sh`, and `./stop.sh` directly from any directory. Set `KYKEON_PYTHON`
+if your Python 3.14 executable has a different name.
+
+Open **http://127.0.0.1:5173/**. Backend documentation is at
+**http://127.0.0.1:8765/docs**. Logs live in `.kykeon/logs/` and process records
+in `.kykeon/run/`. Repeating start/stop is safe. Occupied ports are reported
+instead of killing another server or silently switching ports.
+
+The scripts default to `.kykeon/models/` for registered checkpoints and
+`.kykeon/artifacts/` for derived files. Export `KYKEON_MODEL_ROOTS` (colon-separated)
+and/or `KYKEON_ARTIFACT_ROOT` before `make start` to override these directories.
+Model files are never removed by `make stop`. Both services bind to loopback;
+ports 5173 and 8765 match the existing frontend proxy. These commands run the
+local development app, not a production deployment.
+
 ## Run the workbench
 
 Requires Node.js 22+ and npm.
@@ -114,3 +144,25 @@ All 50 entries in **Tools** have editable projected fields, covering their inten
 **Planned** labels distinguish these fields from the existing active simulation controls. They are proposed Kykeon interface fields—not a verified mapping to a particular backend release. Defaults are illustrative, local paths are references only, and advanced text is stored verbatim. No backend method, dataset, target module, or tensor compatibility is validated. Changing the planned merge method to SLERP does not change the existing linear-merge fixture; similarly, projected TorchAO options do not alter its precision-only fixture.
 
 Reference anchors used for the projected interfaces: [MergeKit configuration](https://github.com/arcee-ai/mergekit), [PEFT LoRA configuration](https://huggingface.co/docs/peft/main/package_reference/lora), [TorchAO INT4 configuration](https://docs.pytorch.org/ao/stable/api_reference/generated/torchao.quantization.Int4WeightOnlyConfig.html), and [EasyEdit](https://github.com/zjunlp/EasyEdit). Other fields describe intended Kykeon workflows rather than asserting exact upstream API coverage.
+
+## Execution recovery and publication
+
+Job identity is retained in session storage before submission. Reloading the page
+resumes monitoring without submitting another job or enabling Local mode. After a
+connection loss, **Run** reconnects to the pending job. Cancellation requests are
+retried until acknowledged, and recovery information remains until the result is
+retrieved or a failed/cancelled terminal state is confirmed.
+
+The backend writes a result first, then atomically publishes a `success.json`
+record with result and provenance hashes. Only validated success records expose
+artifacts. Cancellation wins until that record is committed; after commitment the
+job is successful. Restart restores job lookup records and marks interrupted jobs
+failed. Older exports without a success record are retained on disk but hidden
+from the verified artifact list. Artifact directories must be user-owned; output
+symlinks below the configured root are rejected.
+
+Worker output is captured in each job's `worker.log`; timeout failures include its
+last output. CPU selection does not probe CUDA. A sandbox that blocks local
+socket/thread wakeups can hang Starlette's TestClient even for an empty FastAPI
+app. Run backend integration tests in a normal local shell in that environment;
+this is distinct from a model/GPU execution stall.

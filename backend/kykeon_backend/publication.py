@@ -6,7 +6,11 @@ from .paths import output_path, atomic_json
 
 
 def digest(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    hasher = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            hasher.update(chunk)
+    return hasher.hexdigest()
 
 
 def success_result(root: Path, job_id: str):
@@ -62,4 +66,10 @@ def publish_success(root: Path, job_id: str, result: dict) -> None:
             if digest(path) != item["sha256"]:
                 raise ValueError("Derived checkpoint hash mismatch")
         record["provenance_sha256"] = digest(provenance_path)
-    atomic_json(root, directory / "success.json", record)
+    try:
+        atomic_json(root, directory / "success.json", record)
+    except OSError:
+        # A directory fsync can fail after atomic rename. The visible validated
+        # commit still decides the outcome; never label it failed and published.
+        if success_result(root, job_id) is None:
+            raise
