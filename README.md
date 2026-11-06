@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/kykeon-logo.svg" alt="Kykeon — Model Workbench" width="400" />
+</p>
+
 # Kykeon
 
 A local, visual workbench for inference controls and bounded model surgery. The browser keeps an explicit **Simulation** mode. **Local execution** is a separate loopback backend and never falls back to simulation.

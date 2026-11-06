@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="128" viewBox="0 0 400 128" role="img" aria-labelledby="title desc">
+  <title id="title">Kykeon</title>
+  <desc id="desc">The green kappa mark and Kykeon Model Workbench wordmark on a dark background.</desc>
+  <rect width="400" height="128" rx="18" fill="#14181b"/>
+  <text x="49" y="86" fill="#bbef95" font-family="Georgia, 'Times New Roman', serif" font-size="76" transform="rotate(-9 73 64)">ϰ</text>
+  <text x="125" y="73" fill="#f0f2ed" font-family="'Space Grotesk', sans-serif" font-size="48" font-weight="600" letter-spacing="-2.3">kykeon</text>
+  <text x="127" y="96" fill="#77868a" font-family="'DM Sans', sans-serif" font-size="12" letter-spacing="3.2">MODEL WORKBENCH</text>
+</svg>
